@@ -50,6 +50,7 @@ int maxPorts=24; // maximum number of serial ports
 int xpos = 0;
 
 PImage img;
+PFont retro;
 
 //Serial[] ledSerial = new Serial[maxPorts];     // each port's actual Serial port
 Serial myPort;
@@ -82,6 +83,7 @@ void setup() {
   //brutePorts();
   desperation();
   if (errorCount > 0) exit();
+  retro = createFont("5x90.ttf", 10);
 }
 
 /*
@@ -213,7 +215,8 @@ void desperation() {
 void draw() {
   background(0);
   datalines();
-  testSketch();
+  //noise();
+  writeSomething("HELLO");
   noStroke(); 
 
   loadPixels();
@@ -248,13 +251,13 @@ void datalines() {
     fill(150, 0, 0);
     rect(i+xpos + 15, height/4, 15, height/4);
   }
-  xpos-=3;
+  xpos-=1;
   if (xpos < -320) {
     xpos = 320;
   }
 }
 
-void testSketch() {
+void noise() {
   for (int i = 0; i < 20; i++) {
     fill(random(60));
     ellipse(random(320), random(32), random(10), random(10));
@@ -262,6 +265,19 @@ void testSketch() {
   for (int i = 0; i < 40; i++) {
     fill(random(50), random(50), random(50));
     ellipse(random(320), random(32), random(10), random(10));
+  }
+}
+
+int wordX = 0;
+
+void writeSomething(String words) {
+  fill(100);
+  textFont(retro);
+  textSize(10);
+  text(words, wordX, 10);
+  wordX++;
+  if (wordX > 350) {
+    wordX=0;
   }
 }
 
