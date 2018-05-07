@@ -54,7 +54,7 @@ PFont retro;
 
 //Serial[] ledSerial = new Serial[maxPorts];     // each port's actual Serial port
 Serial myPort;
-String portName = "/dev/ttyACM0";
+String portName = "/dev/cu.usbmodem3973051";
 
 Rectangle[] ledArea = new Rectangle[maxPorts]; // the area of the movie each port gets, in % (0-100)
 boolean[] ledLayout = new boolean[maxPorts];   // layout of rows, true = even is left->right
@@ -62,7 +62,7 @@ PImage[] ledImage = new PImage[maxPorts];      // image sent to each port
 int[] gammatable = new int[256];
 int errorCount=0;
 float framerate=0;
-PImage cvImg = createImage(300, 32, RGB);
+PImage cvImg = createImage(304, 32, RGB);
 
 void setup() {
   //String[] list = Serial.list();
@@ -71,7 +71,7 @@ void setup() {
   for (int i=0; i < 256; i++) {
     gammatable[i] = (int)(pow((float)i / 255.0, gamma) * 255.0 + 0.5);
   }
-  size(300, 32);  // create the window
+  size(304, 32);  // create the window
   //img = loadImage("rainbow.png");
   myMovie = new Movie(this, "kaleido.mp4");
   //println("Movie added");
@@ -204,7 +204,7 @@ int colorWiring(int c) {
 }
 
 void desperation() {
-  ledImage[numPorts] = new PImage(152, 24, RGB);
+  ledImage[numPorts] = new PImage(152, 16, RGB);
   ledArea[numPorts] = new Rectangle(0, 0, 
     100, 100);
   ledLayout[numPorts] = false;
@@ -214,9 +214,9 @@ void desperation() {
 // draw runs every time the screen is redrawn - show the movie...
 void draw() {
   background(0);
-  datalines();
+  //datalines();
   //noise();
-  writeSomething("HELLO");
+  writeSomething("HELLO TYLER! HODL HODL HODL                         1 ETH IS $789.52     ");
   noStroke(); 
 
   loadPixels();
@@ -239,7 +239,10 @@ void draw() {
     int xloc =  percentage(xsize, ledArea[i].x);
     int yloc =  percentage(ysize, ledArea[i].y);
     // show what should appear on the LEDs
-    image(ledImage[i], 100 - xsize / 2 + xloc, 10 + yloc);
+    stroke(255, 0, 0);
+    rect(152 - xsize / 2 + xloc - 1, 10 + yloc - 1, xsize + 2, ysize + 2);
+    image(ledImage[i], 152 - xsize / 2 + xloc, 10 + yloc);
+    noStroke();
   }
 }
 
@@ -268,16 +271,16 @@ void noise() {
   }
 }
 
-int wordX = 0;
+int wordX = 320;
 
 void writeSomething(String words) {
   fill(100);
   textFont(retro);
   textSize(10);
   text(words, wordX, 10);
-  wordX++;
-  if (wordX > 350) {
-    wordX=0;
+  wordX--;
+  if (wordX < -300) {
+    wordX=320;
   }
 }
 
