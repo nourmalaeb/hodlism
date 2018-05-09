@@ -217,6 +217,9 @@ void desperation() {
   numPorts++;
 }
 
+boolean writeOn = false;
+boolean transferOn = false;
+
 // draw runs every time the screen is redrawn - show the movie...
 void draw() {
   background(0);
@@ -224,14 +227,22 @@ void draw() {
 
   if (myClient.available() > 0) { 
     wordX = 320;
+    writeOn = true;
+    transferOn = true;
     dataIn = myClient.readString(); 
     println(dataIn);
   } 
 
-  //datalines();
+  if (transferOn == true & writeOn == true) {
+    datalines();
+  }
+
   //noise();
-  writeSomething(dataIn);
-  noStroke(); 
+
+  if (writeOn == true) {
+    writeSomething(dataIn);
+    noStroke();
+  }
 
   loadPixels();
 
@@ -261,9 +272,9 @@ void draw() {
 }
 
 //void clientEvent(Client someClient) {
-  //print("Server Says:  ");
-  //dataIn = myClient.readString();
-  //background(dataIn);
+//print("Server Says:  ");
+//dataIn = myClient.readString();
+//background(dataIn);
 //}
 
 // respond to mouse clicks as pause/play
@@ -299,9 +310,10 @@ void writeSomething(String words) {
   textSize(10);
   text(words, wordX, 10);
   wordX--;
-  //if (wordX < -300) {
-  //  wordX=320;
-  //}
+  println(words.length());
+  if (wordX < -320 - (words.length() * 11)) {
+    writeOn = false;
+  }
 }
 
 // scale a number by a percentage, from 0 to 100
