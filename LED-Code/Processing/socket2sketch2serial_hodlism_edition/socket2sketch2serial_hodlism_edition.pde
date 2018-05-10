@@ -176,13 +176,7 @@ void draw() {
   }
 
   if (millis() > 10000) {
-    fill(50, 0, 50, alp);
-    rect(0, 0, width, height);
-    fill(0, 255, 100, alp);
-    textFont(retro);
-    textSize(10);
-    text("NEW BLOCK", 30, height/2 + 10);
-    alp-=5;
+    takeOver("NEW BLOCK");
   }
   
 
@@ -218,9 +212,9 @@ void datalines() {
   fill(0);
   rect(0, 0, width, height/2);
   for (int i = 0; i < 10000; i+=21) {
-    fill(0, 120, 80);
+    fill(0, 120, 65);
     rect(i+xpos, 0, 15, height/4);
-    fill(150, 0, 100);
+    fill(150, 0, 65);
     rect(-(i+xpos) + 15, height/4, 15, height/4);
   }
   xpos-=2;
@@ -252,7 +246,7 @@ int walp = 255;
 void writeSomething(String words, int yloc) {
   fill(0);
   rect(0, yloc, width, height);
-  fill(70, 100, 90, walp);
+  fill(100, 120, 110, walp);
   textFont(retro);
   textSize(10);
   text(words, wordX, 10 + yloc);
@@ -264,6 +258,16 @@ void writeSomething(String words, int yloc) {
   if (wordX < -150 - (words.length() * 6)) {
     writeOn = false;
   }
+}
+
+void takeOver(String message) {
+  fill(60, 0, 60, alp);
+    rect(0, 0, width, height);
+    fill(0, 255, 140, alp);
+    textFont(retro);
+    textSize(10);
+    text(message, 30, height/2 + 10);
+    alp-=5;
 }
 
 // scale a number by a percentage, from 0 to 100
@@ -329,7 +333,7 @@ class Module {
 
   // Custom method for drawing the object
   void display() {
-    fill(60, 0, 60);
+    fill(80, 0, 80);
     ellipse(xOffset + x, yOffset + y, 6, 3);
   }
 }
