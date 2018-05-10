@@ -248,17 +248,20 @@ void noise() {
 }
 
 int wordX = 320;
-
+int walp = 255;
 void writeSomething(String words, int yloc) {
   fill(0);
   rect(0, yloc, width, height);
-  fill(70, 100, 90);
+  fill(70, 100, 90, walp);
   textFont(retro);
   textSize(10);
   text(words, wordX, 10 + yloc);
   wordX--;
-  println(words.length());
-  if (wordX < -320 - (words.length() * 8)) {
+  println(wordX);
+  if (wordX < -(words.length() * 5.5)) {
+    walp-=3;
+  }
+  if (wordX < -150 - (words.length() * 6)) {
     writeOn = false;
   }
 }
