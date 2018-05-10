@@ -258,7 +258,7 @@ void writeSomething(String words, int yloc) {
   text(words, wordX, 10 + yloc);
   wordX--;
   println(words.length());
-  if (wordX < -320 - (words.length() * 11)) {
+  if (wordX < -320 - (words.length() * 8)) {
     writeOn = false;
   }
 }
