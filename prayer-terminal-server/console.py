@@ -56,7 +56,8 @@ def checkPrayer(prayer):
     else:
         return  """\n\nI\'m sorry my child
 You are not the chosen one
-Have more faith in the HODL\n"""
+Have more faith in the HODL
+Spread the good word of decentralization\n"""
 
 
 # Set the signal handler
@@ -69,7 +70,7 @@ class MyPrompt(Cmd):
         """Checks prayer by default"""
         print checkPrayer(args)
         # time before we clear the screen.
-        sleep(5)
+        sleep(15)
         os.system('clear')
 
     def do_12345quit(self, args):
@@ -83,7 +84,8 @@ if __name__ == '__main__':
     signal.signal(signal.SIGINT, handler)
     prompt = MyPrompt()
     # this is reprinted every time.
-    prompt.prompt = """Whoso haveth the most faith
+    prompt.prompt = """Pray for our decentralized future\n
+Whoso haveth the most faith
 will pray the private key on chain
 and unlock Satoshi\'s Genesis Block.\n\n""" + ' Enter thy prayer |> '
     prompt.cmdloop()
