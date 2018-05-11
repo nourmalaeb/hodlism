@@ -37,7 +37,7 @@ void setup() {
   }
   size(304, 32);  // create the window
 
-  //myPort = new Serial(this, portName);
+  myPort = new Serial(this, portName);
 
   myClient = new Client(this, "127.0.0.1", 50008);
 
@@ -82,8 +82,7 @@ void canvasevent(PImage m) {
       ledData[2] = 0;
     }
     // send the raw data to the LEDs  :-)
-    //ledSerial[i].write(ledData);
-    //myPort.write(ledData);
+    myPort.write(ledData);
   }
 }
 
