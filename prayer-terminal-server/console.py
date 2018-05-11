@@ -57,7 +57,7 @@ def checkPrayer(prayer):
     if output == '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa':
         return "You've found the key to the Genesis Block!: " + output
     else:
-        conn.sendall("HODL HARDER                qpqpqp")
+        #conn.sendall("HODL HARDER                qpqpqp")
         return  """\n\nI\'m sorry my child
 You are not the chosen one
 Have more faith in the HODL
@@ -74,7 +74,7 @@ class MyPrompt(Cmd):
         """Checks prayer by default"""
         print checkPrayer(args)
         # time before we clear the screen.
-        sleep(5)
+        sleep(15)
         os.system('clear')
 
     def do_12345quit(self, args):

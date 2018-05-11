@@ -17,6 +17,14 @@ PFont retro;
 
 Serial myPort;
 String portName = "/dev/ttyACM0";
+String[] randMessages = {
+  "ARE YOU THE ONE?",
+  "HODL HODL HODL HODL",
+  "BLESS THIS ETH",
+  "INITIAL SOUL OFFERING",
+  "DECENTRALIZE",
+  "FIAT IS A SIN"
+};
 
 Rectangle[] ledArea = new Rectangle[maxPorts]; // the area of the movie each port gets, in % (0-100)
 boolean[] ledLayout = new boolean[maxPorts];   // layout of rows, true = even is left->right
@@ -153,6 +161,7 @@ boolean transferOn = false;
 boolean takeo = false;
 long toTimer = 0;
 long randMessage = 0;
+int msgCounter = int(random(5));
 
 // draw runs every time the screen is redrawn - show the movie...
 void draw() {
@@ -162,6 +171,7 @@ void draw() {
     dataIn = myClient.readString(); 
     println(dataIn);
     randMessage = 0;
+    msgCounter++;
     String[] to1 = match(dataIn, "qpqpqp");
     if (to1 != null) {
       takeo = true;
@@ -191,8 +201,10 @@ void draw() {
   }
 
   if (randMessage > 5400 && randMessage < 6000) {
-    takeOver("ARE YOU THE ONE?");
+    takeOver(randMessages[msgCounter % 6]);
   }
+  
+  
 
   //testAllLEDs();
 
@@ -223,6 +235,9 @@ void draw() {
   }
 
   randMessage++;
+  if (randMessage > 15000) {
+    randMessage = 0;
+  }
 }
 
 // respond to mouse clicks as pause/play
@@ -360,7 +375,7 @@ class Module {
 
   // Custom method for drawing the object
   void display() {
-    float purps = random(150);
+    float purps = random(70, 150);
     fill(purps, 0, purps);
     ellipse(xOffset + x, yOffset + y, 6, 3);
   }
