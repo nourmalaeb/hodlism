@@ -36,11 +36,11 @@ void setup() {
     gammatable[i] = (int)(pow((float)i / 255.0, gamma) * 255.0 + 0.5);
   }
   size(304, 32);  // create the window
-  
-  myPort = new Serial(this, portName);
+
+  //myPort = new Serial(this, portName);
 
   myClient = new Client(this, "127.0.0.1", 50008);
-  
+
   desperation();
   if (errorCount > 0) exit();
   retro = createFont("5x90.ttf", 10);
@@ -83,7 +83,7 @@ void canvasevent(PImage m) {
     }
     // send the raw data to the LEDs  :-)
     //ledSerial[i].write(ledData);
-    myPort.write(ledData);
+    //myPort.write(ledData);
   }
 }
 
@@ -151,17 +151,28 @@ void desperation() {
 int alp = 255;
 boolean writeOn = false;
 boolean transferOn = false;
+boolean takeo = false;
+long toTimer = 0;
 
 // draw runs every time the screen is redrawn - show the movie...
 void draw() {
   //background(0, 0, 0, 0.02);
-  
+
   if (myClient.available() > 0) { 
-    wordX = 320;
-    writeOn = true;
-    transferOn = true;
     dataIn = myClient.readString(); 
     println(dataIn);
+    String[] to1 = match(dataIn, "qpqpqp");
+    if (to1 != null) {
+      takeo = true;
+      toTimer = 0;
+      alp = 255;
+    }
+    else {
+      walp = 255;
+      wordX = 300;
+      writeOn = true;
+      transferOn = true;
+    }
   } 
 
   if (transferOn == true && writeOn == true) {
@@ -175,10 +186,11 @@ void draw() {
     noise();
   }
 
-  if (millis() > 10000) {
-    takeOver("NEW BLOCK");
+  if (takeo == true && toTimer < 3000) {
+    takeOver(dataIn);
   }
-  
+
+  //testAllLEDs();
 
   loadPixels();
 
@@ -212,14 +224,14 @@ void datalines() {
   fill(0);
   rect(0, 0, width, height/2);
   for (int i = 0; i < 10000; i+=21) {
-    fill(0, 120, 65);
+    fill(0, 140, 65);
     rect(i+xpos, 0, 15, height/4);
     fill(150, 0, 65);
     rect(-(i+xpos) + 15, height/4, 15, height/4);
   }
   xpos-=2;
   //if (xpos < -320) {
-    //xpos = 320;
+  //xpos = 320;
   //}
 }
 
@@ -227,9 +239,9 @@ void noise() {
   fill(0, 0, 0, 100);
   rect(0, 0, width, height);
   /*for (int i = 0; i < 20; i++) {
-    fill(random(20));
-    ellipse(random(320), random(32), random(10), random(10));
-  } */
+   fill(random(20));
+   ellipse(random(320), random(32), random(10), random(10));
+   } */
   for (int i = 0; i < 40; i++) {
     float x = random(30);
     fill(x, 0, x);
@@ -246,28 +258,36 @@ int walp = 255;
 void writeSomething(String words, int yloc) {
   fill(0);
   rect(0, yloc, width, height);
-  fill(100, 120, 110, walp);
+  fill(150, 150, 150, walp);
   textFont(retro);
   textSize(10);
   text(words, wordX, 10 + yloc);
   wordX--;
   println(wordX);
-  if (wordX < -(words.length() * 5.5)) {
+  if (wordX < -275 -(words.length() * 8)) {
     walp-=3;
   }
-  if (wordX < -150 - (words.length() * 6)) {
+  if (wordX < -320 - (words.length() * 8)) {
     writeOn = false;
   }
 }
 
 void takeOver(String message) {
-  fill(60, 0, 60, alp);
-    rect(0, 0, width, height);
-    fill(0, 255, 140, alp);
-    textFont(retro);
-    textSize(10);
-    text(message, 30, height/2 + 10);
-    alp-=5;
+  fill(80, 0, 80, alp);
+  rect(0, 0, width, height);
+  fill(0, 255, 140, alp);
+  textFont(retro);
+  textSize(10);
+  text(message, 30, height/2 + 10);
+  alp-=2;
+  if (alp <=3) {
+    takeo = false;
+  }
+}
+
+void testAllLEDs() {
+  fill(150, 0, 150);
+  rect(0, 0, width, height);
 }
 
 // scale a number by a percentage, from 0 to 100
@@ -333,7 +353,8 @@ class Module {
 
   // Custom method for drawing the object
   void display() {
-    fill(80, 0, 80);
+    float purps = random(150);
+    fill(purps, 0, purps);
     ellipse(xOffset + x, yOffset + y, 6, 3);
   }
 }
