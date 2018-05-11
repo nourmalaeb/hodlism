@@ -153,6 +153,7 @@ boolean writeOn = false;
 boolean transferOn = false;
 boolean takeo = false;
 long toTimer = 0;
+long randMessage = 0;
 
 // draw runs every time the screen is redrawn - show the movie...
 void draw() {
@@ -161,13 +162,13 @@ void draw() {
   if (myClient.available() > 0) { 
     dataIn = myClient.readString(); 
     println(dataIn);
+    randMessage = 0;
     String[] to1 = match(dataIn, "qpqpqp");
     if (to1 != null) {
       takeo = true;
       toTimer = 0;
       alp = 255;
-    }
-    else {
+    } else {
       walp = 255;
       wordX = 300;
       writeOn = true;
@@ -186,8 +187,12 @@ void draw() {
     noise();
   }
 
-  if (takeo == true && toTimer < 3000) {
+  if (takeo == true && toTimer < 200) {
     takeOver(dataIn);
+  }
+
+  if (randMessage > 5400 && randMessage < 6000) {
+    takeOver("ARE YOU THE ONE?");
   }
 
   //testAllLEDs();
@@ -217,6 +222,8 @@ void draw() {
     image(ledImage[i], 152 - xsize / 2 + xloc, 10 + yloc);
     noStroke();
   }
+
+  randMessage++;
 }
 
 // respond to mouse clicks as pause/play
@@ -279,6 +286,7 @@ void takeOver(String message) {
   textFont(retro);
   textSize(10);
   text(message, 30, height/2 + 10);
+  toTimer++;
   alp-=2;
   if (alp <=3) {
     takeo = false;
