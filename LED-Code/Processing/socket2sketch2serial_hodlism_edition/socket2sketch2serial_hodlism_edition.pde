@@ -251,9 +251,9 @@ void datalines() {
     rect(-(i+xpos) + 15, height/4, 15, height/4);
   }
   xpos-=2;
-  //if (xpos < -320) {
-  //xpos = 320;
-  //}
+  if (xpos < -2000) {
+  xpos = -500;
+  }
 }
 
 void noise() {
@@ -375,7 +375,7 @@ class Module {
 
   // Custom method for drawing the object
   void display() {
-    float purps = random(70, 150);
+    float purps = random(120, 150);
     fill(purps, 0, purps);
     ellipse(xOffset + x, yOffset + y, 6, 3);
   }
