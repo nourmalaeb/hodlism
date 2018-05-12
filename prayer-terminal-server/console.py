@@ -70,6 +70,14 @@ class MyPrompt(Cmd):
     def emptyline(self):
         return
 
+    def do_help(self, args):
+        """Checks prayer by default"""
+        true_prayer = "help " + args 
+        print checkPrayer(true_prayer)
+        # time before we clear the screen.
+        sleep(15)
+        os.system('clear')
+
     def default(self, args):
         """Checks prayer by default"""
         print checkPrayer(args)
