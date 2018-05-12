@@ -183,7 +183,7 @@
     <keybind key="C-S-t">
       <action name="Execute"><command>false</command></action>
     </keybind>
-    <keybind key="W">
+    <keybind key="0x85">
       <action name="Execute"><command>false</command></action>
     </keybind>
     <keybind key="C-n">
